@@ -19,92 +19,92 @@ public:
 	protected:
 		Node*current;
 		T &Retrieve()const{ return current->data; }
-		const_iterator(Node *p):current(p){} //×ª»»¹¹Ôì
+		const_iterator(Node *p):current(p){} //è½¬æ¢æ„é€ 
 		friend class List<T>;
 	public:
-		const_iterator():current(0){} //Ä¬ÈÏ¹¹Ôì
+		const_iterator():current(0){} //é»˜è®¤æ„é€ 
 		const T &operator*()const{ return Retrieve(); }
-	//×ÔÔö×Ô¼õ
-		const_iterator &operator++() //Ç°++
+	//è‡ªå¢è‡ªå‡
+		const_iterator &operator++() //å‰++
 		{
 			current=current->next;
 			return *this;
 		}
-		const_iterator operator++(int) //ºó++
+		const_iterator operator++(int) //å++
 		{
 			const_iterator old=*this;
 			++(*this);
 			return old;
 		}
-		const_iterator &operator--() //Ç°--
+		const_iterator &operator--() //å‰--
 		{
 			current - current->prev;
 			return *this;
 		}
-		const_iterator operator--(int) //ºó--
+		const_iterator operator--(int) //å--
 		{
 			const_iterator old=*this;
 			--(*this);
 			return old;
 		}
-		//¹ØÏµÔËËã
+		//å…³ç³»è¿ç®—
 		bool operator==(const const_iterator &itr)const{ return current==itr.current; }
 		bool operator!=(const const_iterator &itr)const{ return current !=itr.current; }
 	};
 	class iterator:public const_iterator
 	{
 	protected:
-		iterator(Node *p):const_iterator(p){} //×ª»»¹¹Ôì
+		iterator(Node *p):const_iterator(p){} //è½¬æ¢æ„é€ 
 		friend class List<T>;
 	public:
-		iterator(){} //Ä¬ÈÏ¹¹Ôì
+		iterator(){} //é»˜è®¤æ„é€ 
 		T &operator*() { return const_iterator::Retrieve(); }
 		const T &operator*() const{ return const_iterator::operator*(); }
-	//×ÔÔö×Ô¼õ
-		iterator &operator++() //Ç°++
+	//è‡ªå¢è‡ªå‡
+		iterator &operator++() //å‰++
 		{
 			this->current=this->current->next;
 			return *this;
 		}
-		iterator operator++(int) //ºó++
+		iterator operator++(int) //å++
 		{
 			iterator old=*this;
 			++(*this);
 			return old;
 		}
-		iterator &operator--() //Ç°--
+		iterator &operator--() //å‰--
 		{
 			this->current=this->current->prev;
 			return *this;
 		}
-		iterator operator--(int) //ºó--
+		iterator operator--(int) //å--
 		{
 			iterator old=*this;
 			--(*this);
 			return old;
 		}
 	};
-	List() { Init(); } //Ä¬ÈÏ¹¹Ôì
-	List(const List<T> &l) { Init(); *this=l; } //¸´ÖÆ¹¹Ôì
-	~List() { Clear(); delete head; delete tail; } //Îö¹¹
-	const List<T> &operator=(const List<T> &l); //¸´ÖÆ¹¹Ôì
+	List() { Init(); } //é»˜è®¤æ„é€ 
+	List(const List<T> &l) { Init(); *this=l; } //å¤åˆ¶æ„é€ 
+	~List() { Clear(); delete head; delete tail; } //ææ„
+	const List<T> &operator=(const List<T> &l); //å¤åˆ¶æ„é€ 
 	int Empty()const{ return size==0; }
 	int Size()const{ return size; }
-	const_iterator Begin()const{ return const_iterator(head->next); } //Ö¸ÏòÔªËØÊ×½áµã
+	const_iterator Begin()const{ return const_iterator(head->next); } //æŒ‡å‘å…ƒç´ é¦–ç»“ç‚¹
 	iterator Begin() { return iterator(head->next); }
-	const_iterator End()const{ return const_iterator(tail); } //Ö¸ÏòÁ´±íÎ²½áµã
+	const_iterator End()const{ return const_iterator(tail); } //æŒ‡å‘é“¾è¡¨å°¾ç»“ç‚¹
 	iterator End() { return iterator(tail); }
-	iterator Erase(iterator itr); //É¾³ıµü´úÆ÷Ö¸ÏòµÄ½áµã
-	void PopFront() { Erase(Begin()); } //É¾³ıÔªËØÊ×½áµã
-	void PopBack() { Erase(--End()); } //É¾³ıÔªËØÎ²½áµã
-	void Clear() { while (!Empty()) PopFront(); } //Çå±í
-	iterator Insert(iterator itr,const T &item); //ÔÚµü´úÆ÷Î»ÖÃ²åÈë
-	void PushBack(const T &item) { Insert(End(),item); } //ÔÚÁ´±íÎ²½Úµã²åÈë
-	void PushFront(const T &item) { Insert(Begin(),item); } //Ç°²å
-	T &Front() { return *Begin(); } //·µ»ØÊ×ÔªËØµÄÒıÓÃ
-	const T &Front() const{ return *Begin(); } //·µ»ØÊ×ÔªËØµÄ³£Á¿ĞÍÒıÓÃ
-	T &Back() { return *--End(); } //·µ»ØÎ²ÔªËØµÄÒıÓÃ
-	const T &Back() const{ return *--End(); } //·µ»ØÎ²ÔªËØµÄ³£Á¿ĞÍÒıÓÃ
+	iterator Erase(iterator itr); //åˆ é™¤è¿­ä»£å™¨æŒ‡å‘çš„ç»“ç‚¹
+	void PopFront() { Erase(Begin()); } //åˆ é™¤å…ƒç´ é¦–ç»“ç‚¹
+	void PopBack() { Erase(--End()); } //åˆ é™¤å…ƒç´ å°¾ç»“ç‚¹
+	void Clear() { while (!Empty()) PopFront(); } //æ¸…è¡¨
+	iterator Insert(iterator itr,const T &item); //åœ¨è¿­ä»£å™¨ä½ç½®æ’å…¥
+	void PushBack(const T &item) { Insert(End(),item); } //åœ¨é“¾è¡¨å°¾èŠ‚ç‚¹æ’å…¥
+	void PushFront(const T &item) { Insert(Begin(),item); } //å‰æ’
+	T &Front() { return *Begin(); } //è¿”å›é¦–å…ƒç´ çš„å¼•ç”¨
+	const T &Front() const{ return *Begin(); } //è¿”å›é¦–å…ƒç´ çš„å¸¸é‡å‹å¼•ç”¨
+	T &Back() { return *--End(); } //è¿”å›å°¾å…ƒç´ çš„å¼•ç”¨
+	const T &Back() const{ return *--End(); } //è¿”å›å°¾å…ƒç´ çš„å¸¸é‡å‹å¼•ç”¨
 };
 template<class T>
 typename List<T>::iterator List<T>::Erase(iterator itr)
@@ -126,16 +126,16 @@ typename List<T>::iterator List<T>::Insert(iterator itr,const T &item)
 	++size;
 	return iterator(p->prev);
 }
-template<class T> //¸´ÖÆ¸³Öµ
+template<class T> //å¤åˆ¶èµ‹å€¼
 const List<T> &List<T>::operator=(const List<T> &l)
 {
-	Clear(); //Çå±í
+	Clear(); //æ¸…è¡¨
 	const_iterator first=l.Begin(),last=l.End();
 	for (; first !=last; ++first)
 		PushBack(*first);
 	return *this;
 }
-template<class T> //Á´±íÄæÖÃ
+template<class T> //é“¾è¡¨é€†ç½®
 void InvertList(List<T> &L)
 {
 	typename List<T>::iterator first=L.Begin();
