@@ -6,13 +6,13 @@
 #include"seqlist.h"
 #include<iostream>
 template<class T>
-struct BTNode //¶ş²æÊ÷½áµã
+struct BTNode //äºŒå‰æ ‘ç»“ç‚¹
 {
-	T data; //´æ´¢Êı¾İÔªËØ
-	BTNode *left, *right; //Ö¸Ïò×óÓÒº¢×Ó½áµãµÄÖ¸Õë
-	BTNode(const T &item=T(),BTNode *l=0,BTNode *r=0):data(item),left(l),right(r){} //Ä¬ÈÏ¹¹Ôì
+	T data; //å­˜å‚¨æ•°æ®å…ƒç´ 
+	BTNode *left, *right; //æŒ‡å‘å·¦å³å­©å­ç»“ç‚¹çš„æŒ‡é’ˆ
+	BTNode(const T &item=T(),BTNode *l=0,BTNode *r=0):data(item),left(l),right(r){} //é»˜è®¤æ„é€ 
 };
-template<class T> //²ã´ÎĞòÁĞÊä³ö
+template<class T> //å±‚æ¬¡åºåˆ—è¾“å‡º
 void Level(BTNode<T> *t)
 {
 	if (t == 0)
@@ -30,20 +30,20 @@ void Level(BTNode<T> *t)
 	}
 	cout << endl;
 }
-struct Location //½áµãÊä³öÎ»ÖÃ
+struct Location //ç»“ç‚¹è¾“å‡ºä½ç½®
 {
 	int x,y;
 };
-void Gotoxy(int x,int y) //¶¨Î»º¯Êı
+void Gotoxy(int x,int y) //å®šä½å‡½æ•°
 {
-	static int indent = 0; //Æ«ÒÆÁ¿¡£ÊÂÊµÉÏindent¾²Ì¬±äÁ¿ÔÚ±¾º¯ÊıÊÇÎŞÓÃµÄ£¬ÒòÎªËü²»Í£µØ±»¸³ÖµÎª0
-	static int level = 0; //²ãÊı
+	static int indent = 0; //åç§»é‡ã€‚äº‹å®ä¸Šindenté™æ€å˜é‡åœ¨æœ¬å‡½æ•°æ˜¯æ— ç”¨çš„ï¼Œå› ä¸ºå®ƒä¸åœåœ°è¢«èµ‹å€¼ä¸º0
+	static int level = 0; //å±‚æ•°
 	if (y == 0)
 	{
 		level = 0;
 		indent = 0;
 	}
-	if (y != level) //»»ĞĞÊä³öÊ±£¬´ÓÍ·¿ªÊ¼
+	if (y != level) //æ¢è¡Œè¾“å‡ºæ—¶ï¼Œä»å¤´å¼€å§‹
 	{
 		int n = y - level;
 		for (int i = 0; i < n; ++i)
@@ -53,18 +53,18 @@ void Gotoxy(int x,int y) //¶¨Î»º¯Êı
 		}
 		indent = 0;
 	}
-	cout.width(x - indent); //Í¬ĞĞÊä³öÊ±¼õÁ¿
-	indent = x; //¼ÇÂ¼Êä³öµÄÁĞ×ø±ê
+	cout.width(x - indent); //åŒè¡Œè¾“å‡ºæ—¶å‡é‡
+	indent = x; //è®°å½•è¾“å‡ºçš„åˆ—åæ ‡
 }
 template<class T>
-void PrintBTree(const BTNode<T> *t,SeqList<int> &value,SeqList<char> &word,int w) //´¹Ö±Êä³ö¶ş²æÊ÷
+void PrintBTree(const BTNode<T> *t,SeqList<int> &value,SeqList<char> &word,int w) //å‚ç›´è¾“å‡ºäºŒå‰æ ‘
 {
 	if (t == 0)
 		return;
-	int level = 0,off = w / 2; //´Ó0²ã¿ªÊ¼£¬Æ«ÒÆÁ¿ÊÇ¿í¶ÈµÄ1/2
+	int level = 0,off = w / 2; //ä»0å±‚å¼€å§‹ï¼Œåç§»é‡æ˜¯å®½åº¦çš„1/2
 	Location f,c;
-	Queue<const BTNode<T>*>Q; //´æ´¢½áµãÖ¸Õë
-	Queue<Location>LQ; //´æ´¢½áµãÊä³öÎ»ÖÃ
+	Queue<const BTNode<T>*>Q; //å­˜å‚¨ç»“ç‚¹æŒ‡é’ˆ
+	Queue<Location>LQ; //å­˜å‚¨ç»“ç‚¹è¾“å‡ºä½ç½®
 	f.x = off;
 	f.y = level;
 	Q.Push(t);
@@ -73,8 +73,8 @@ void PrintBTree(const BTNode<T> *t,SeqList<int> &value,SeqList<char> &word,int w
 	{
 		t = Q.Pop();
 		f = LQ.Pop();
-		Gotoxy(f.x,f.y); //ÒÆ¶¯¹â±êµ½Êä³öÎ»ÖÃ
-		if (!t->left & &!t->right)
+		Gotoxy(f.x,f.y); //ç§»åŠ¨å…‰æ ‡åˆ°è¾“å‡ºä½ç½®
+		if (!t->left && !t->right)
 		{
 			for (int i = 0; i < value.GetSize(); ++i)
 				if ((t->data) == value.GetData(i))
@@ -82,7 +82,7 @@ void PrintBTree(const BTNode<T> *t,SeqList<int> &value,SeqList<char> &word,int w
 		}
 		else
 			cout << t->data;
-		if (f.y != level) //³ı¸úÍâ£¬Ã¿²ãÊ×½áµãÊä³öºó£¬¶¼ĞŞ¸Ä²ãÊıºÍÆ«ÒÆÁ¿
+		if (f.y != level) //é™¤è·Ÿå¤–ï¼Œæ¯å±‚é¦–ç»“ç‚¹è¾“å‡ºåï¼Œéƒ½ä¿®æ”¹å±‚æ•°å’Œåç§»é‡
 		{
 			++level;
 			off /= 2;
@@ -104,47 +104,47 @@ void PrintBTree(const BTNode<T> *t,SeqList<int> &value,SeqList<char> &word,int w
 	}
 	cout << endl;
 }
-template<class T> //ÓÉË³Ğò´æ´¢Éú³É¶ş²æÁ´Ê½´æ´¢
+template<class T> //ç”±é¡ºåºå­˜å‚¨ç”ŸæˆäºŒå‰é“¾å¼å­˜å‚¨
 BTNode<T> *MakeBTree(const T *p,int n)
 {
 	if (n <= 0)
 		return 0;
 	Queue<BTNode<T>*>Q;
-	BTNode<T> *t = new BTNode<T>(p[0]); //Éú³É¸ùÖ¸Õë
-	BTNode<T> *f, *c; //Ë«Ç×ºÍº¢×ÓÖ¸Õë
-	Q.Push(t); //¸ùÖ¸ÕëÈë¶Ó
+	BTNode<T> *t = new BTNode<T>(p[0]); //ç”Ÿæˆæ ¹æŒ‡é’ˆ
+	BTNode<T> *f, *c; //åŒäº²å’Œå­©å­æŒ‡é’ˆ
+	Q.Push(t); //æ ¹æŒ‡é’ˆå…¥é˜Ÿ
 	int i = 0;
 	while (!Q.Empty())
 	{
-		f = Q.Pop(); //Ò»¸ö½áµãÖ¸Õë³ö¶Ó
-		if (2  *i + 1 < n & &p[2  *i + 1] != T()) //Èç¹ûÓĞ×óº¢×Ó
+		f = Q.Pop(); //ä¸€ä¸ªç»“ç‚¹æŒ‡é’ˆå‡ºé˜Ÿ
+		if (2*i + 1 < n && p[2*i+1] != T() ) //å¦‚æœæœ‰å·¦å­©å­
 		{
-			c = new BTNode<T>(p[2  *i + 1]); //Éú³É×óº¢×Ó½áµã
-			f->left = c; //ÓëË«Ç×Á¬½Ó
-			Q.Push(c); //×óº¢×ÓÖ¸ÕëÈë¶Ó
+			c = new BTNode<T>(p[2*i+1]); //ç”Ÿæˆå·¦å­©å­ç»“ç‚¹
+			f->left = c; //ä¸åŒäº²è¿æ¥
+			Q.Push(c); //å·¦å­©å­æŒ‡é’ˆå…¥é˜Ÿ
 		}
-		if (2  *i + 2 < n & &p[2  *i + 2] != T()) //Èç¹ûÓĞÓÒº¢×Ó
+		if (2*i + 2 < n && p[2*i+2] != T() ) //å¦‚æœæœ‰å³å­©å­
 		{
-			c = new BTNode<T>(p[2  *i + 2]); //Éú³ÉÓÒº¢×Ó½áµã
-			f->right = c; //ÓëË«Ç×Á¬½Ó
-			Q.Push(c); //ÓÒº¢×ÓÖ¸ÕëÈë¶Ó
+			c = new BTNode<T>(p[2*i+2]); //ç”Ÿæˆå³å­©å­ç»“ç‚¹
+			f->right = c; //ä¸åŒäº²è¿æ¥
+			Q.Push(c); //å³å­©å­æŒ‡é’ˆå…¥é˜Ÿ
 		}
 		++i;
-		while (i < n & &p[i] == T()) //²éÕÒÏÂÒ»¸ö·Ç0ÔªËØ
+		while (i < n && p[i] == T()) //æŸ¥æ‰¾ä¸‹ä¸€ä¸ªé0å…ƒç´ 
 			++i;
 	}
 	return t;
 }
 template<class T>
-void Preorder(const BTNode<T> *t) //Ç°Ğò±éÀúµİ¹éº¯Êı
+void Preorder(const BTNode<T> *t) //å‰åºéå†é€’å½’å‡½æ•°
 {
 	if (t == 0)
 		return;
-	cout << t->data << '\t'; //·ÃÎÊ¸ù
-	Preorder(t->left); //Ç°Ğò±éÀú×ó×ÓÊ÷
-	Preorder(t->right); //¶Ïµã(1)£¬Ç°Ğò±éÀúÓÒ×ÓÊ÷
-} //¶Ïµã(2)
-/*Ç°Ğò±éÀúµİ¹éº¯ÊıÁíÒ»¸ö°æ±¾£¬º¬ÓĞif×Ó¾ä£¬±éÀúµÄ×ó¡¢ÓÒ×ÓÊ÷²»ÄÜÎª¿Õ
+	cout << t->data << '\t'; //è®¿é—®æ ¹
+	Preorder(t->left); //å‰åºéå†å·¦å­æ ‘
+	Preorder(t->right); //æ–­ç‚¹(1)ï¼Œå‰åºéå†å³å­æ ‘
+} //æ–­ç‚¹(2)
+/*å‰åºéå†é€’å½’å‡½æ•°å¦ä¸€ä¸ªç‰ˆæœ¬ï¼Œå«æœ‰ifå­å¥ï¼Œéå†çš„å·¦ã€å³å­æ ‘ä¸èƒ½ä¸ºç©º
 template<class T>
 void Preorder(const BTNode<T> *t)
 {
@@ -153,143 +153,143 @@ void Preorder(const BTNode<T> *t)
 	cout<<t->data<<'\t';
 	if(t->left)
 		Preorder(t->left);
-	if(t->right)  //¶Ïµã(1)
+	if(t->right)  //æ–­ç‚¹(1)
 		Preorder(t->right);
-} //¶Ïµã(2)
+} //æ–­ç‚¹(2)
 */
 template<class T>
-void SimPreoder(const BTNode<T> *t) //Ç°Ğò±éÀúµü´úº¯Êı
+void SimPreoder(const BTNode<T> *t) //å‰åºéå†è¿­ä»£å‡½æ•°
 {
 	if (t == 0)
 		return;
-	Stack<const BTNode<T>*>S; //ÓÃ»§Õ»
+	Stack<const BTNode<T>*>S; //ç”¨æˆ·æ ˆ
 	while (t || !S.Empty())
 		if (t)
 		{
-			cout << t->data << '\t'; //·ÃÎÊ½áµã
+			cout << t->data << '\t'; //è®¿é—®ç»“ç‚¹
 			if (t->right)
-				S.Push(t->right); //ÓÒº¢×ÓÖ¸ÕëÈëÕ»±£´æ
-			t = t->left; //ÌáÈ¡×óº¢×ÓÖ¸Õë
+				S.Push(t->right); //å³å­©å­æŒ‡é’ˆå…¥æ ˆä¿å­˜
+			t = t->left; //æå–å·¦å­©å­æŒ‡é’ˆ
 		}
 		else
-			t = S.Pop(); //ÓÒº¢×ÓÖ¸Õë³öÕ»
+			t = S.Pop(); //å³å­©å­æŒ‡é’ˆå‡ºæ ˆ
 }
-template<class T> //¿ìËÙÅÅĞò»®·Ö
-int Partition(T *p,int left,int right) //¶Ôp[left:right]»®·Ö£¬·µ»Ø¸ùµÄË÷Òı
+template<class T> //å¿«é€Ÿæ’åºåˆ’åˆ†
+int Partition(T *p,int left,int right) //å¯¹p[left:right]åˆ’åˆ†ï¼Œè¿”å›æ ¹çš„ç´¢å¼•
 {
-	T root = p[left]; //ÌáÈ¡Êı¾İÊ×ÔªËØ×÷Îª¸ù£¬Áô³ö¿ÕÎ»
+	T root = p[left]; //æå–æ•°æ®é¦–å…ƒç´ ä½œä¸ºæ ¹ï¼Œç•™å‡ºç©ºä½
 	while (left != right)
 	{
-		while (p[right] >= root & &right > left) //ÔÚÊ£ÓàµÄÊı¾İÔªËØÖĞ£¬´ÓÓÒÍù×ó±éÀú£¬ÕÒµ½µÚÒ»¸öĞ¡ÓÚ¸ùµÄÔªËØÍ£Ö¹¡£½«¸ÃÔªËØÒÆµ½ÉÏÒ»Î»µÄ¿ÕÎ»£¬Áô³öĞÂµÄ¿ÕÎ»
+		while (p[right] >= root && right > left) //åœ¨å‰©ä½™çš„æ•°æ®å…ƒç´ ä¸­ï¼Œä»å³å¾€å·¦éå†ï¼Œæ‰¾åˆ°ç¬¬ä¸€ä¸ªå°äºæ ¹çš„å…ƒç´ åœæ­¢ã€‚å°†è¯¥å…ƒç´ ç§»åˆ°ä¸Šä¸€ä½çš„ç©ºä½ï¼Œç•™å‡ºæ–°çš„ç©ºä½
 			--right;
 		if (right > left)
 			p[left++] = p[right];
-		while (p[left] <= root & &left < right) //ÔÚÃ»ÓĞ·ÃÎÊµÄÊı¾İÔªËØÖĞ£¬´Ó×óÍùÓÒ±éÀú£¬ÕÒµ½µÚÒ»¸ö´óÓÚ¸ùµÄÔªËØÍ£Ö¹¡£½«¸ÃÔªËØÒÆµ½ÉÏÒ»Î»µÄ¿ÕÎ»£¬Áô³öĞÂµÄ¿ÕÎ»
+		while (p[left] <= root && left < right) //åœ¨æ²¡æœ‰è®¿é—®çš„æ•°æ®å…ƒç´ ä¸­ï¼Œä»å·¦å¾€å³éå†ï¼Œæ‰¾åˆ°ç¬¬ä¸€ä¸ªå¤§äºæ ¹çš„å…ƒç´ åœæ­¢ã€‚å°†è¯¥å…ƒç´ ç§»åˆ°ä¸Šä¸€ä½çš„ç©ºä½ï¼Œç•™å‡ºæ–°çš„ç©ºä½
 			++left;
 		if (left < right)
 			p[right--] = p[left];
 	}
-	p[left] = root; //ÖØ¸´ÒÔÉÏ²½Öè£¬Ö±µ½ËùÓĞÔªËØ¶¼·ÃÎÊ¹ı£¬Ö»Ê£Ò»¸ö¿ÕÎ»¡£½«¸ùÒÆµ½¿ÕÎ»£¬·µ»Ø¸ùµÄË÷Òı
+	p[left] = root; //é‡å¤ä»¥ä¸Šæ­¥éª¤ï¼Œç›´åˆ°æ‰€æœ‰å…ƒç´ éƒ½è®¿é—®è¿‡ï¼Œåªå‰©ä¸€ä¸ªç©ºä½ã€‚å°†æ ¹ç§»åˆ°ç©ºä½ï¼Œè¿”å›æ ¹çš„ç´¢å¼•
 	return left;
 }
 template<class T>
-void QuickSort(T *p,int left,int right) //¿ìËÙÅÅĞò
+void QuickSort(T *p,int left,int right) //å¿«é€Ÿæ’åº
 {
 	if (left >= right)
 		return;
-	int m = Partition(p,left,right); //¶ÔÊı×é»®·Ö
-	QuickSort(p,left,m - 1); //¶Ô×ó×ÓÊ÷¿ìËÙÅÅĞò
-	QuickSort(p,m + 1,right); //¶ÔÓÒ×ÓÊ÷¿ìËÙÅÅĞò
+	int m = Partition(p,left,right); //å¯¹æ•°ç»„åˆ’åˆ†
+	QuickSort(p,left,m - 1); //å¯¹å·¦å­æ ‘å¿«é€Ÿæ’åº
+	QuickSort(p,m + 1,right); //å¯¹å³å­æ ‘å¿«é€Ÿæ’åº
 }
 template<class T>
-void QuickSort(T *p,int n) //¿ìËÙÅÅĞòÒıÇæ
+void QuickSort(T *p,int n) //å¿«é€Ÿæ’åºå¼•æ“
 {
-	QuickSort(p,0,n - 1); //µ÷ÓÃ¿ìËÙÅÅĞòµİ¹éËã·¨
+	QuickSort(p,0,n - 1); //è°ƒç”¨å¿«é€Ÿæ’åºé€’å½’ç®—æ³•
 }
 template<class T>
-void Inorder(const BTNode<T> *t) //ÖĞĞò±éÀúµİ¹éËã·¨ 
+void Inorder(const BTNode<T> *t) //ä¸­åºéå†é€’å½’ç®—æ³• 
 {
 	if (t == 0)
 		return;
-	Inorder(t->left); //ÖĞĞò±éÀú×ó×ÓÊ÷
-	cout << t->data << '\t'; //¶Ïµã(!)
-	Inorder(t->right); //ÖĞĞò±éÀúÓÒ×ÓÊ÷
-} //¶Ïµã(2)
-/*ÖĞĞò±éÀúµİ¹éº¯Êı»¹ÓĞÁíÒ»¸ö°æ±¾£¬º¬ÓĞif×Ó¾ä£¬±éÀúµÄ×ó¡¢ÓÒ×ÓÊ÷²»ÄÜÎª¿Õ£¬¼´µİ¹é¹ı³ÌÖ±µ½Ö¸ÕëËùÖ¸ÏòµÄ½áµãÃ»ÓĞ×ó¡¢ÓÒ×ÓÊ÷0ÎªÖ¹£¬¿ªÊ¼»ØËİ
+	Inorder(t->left); //ä¸­åºéå†å·¦å­æ ‘
+	cout << t->data << '\t'; //æ–­ç‚¹(!)
+	Inorder(t->right); //ä¸­åºéå†å³å­æ ‘
+} //æ–­ç‚¹(2)
+/*ä¸­åºéå†é€’å½’å‡½æ•°è¿˜æœ‰å¦ä¸€ä¸ªç‰ˆæœ¬ï¼Œå«æœ‰ifå­å¥ï¼Œéå†çš„å·¦ã€å³å­æ ‘ä¸èƒ½ä¸ºç©ºï¼Œå³é€’å½’è¿‡ç¨‹ç›´åˆ°æŒ‡é’ˆæ‰€æŒ‡å‘çš„ç»“ç‚¹æ²¡æœ‰å·¦ã€å³å­æ ‘0ä¸ºæ­¢ï¼Œå¼€å§‹å›æº¯
 template<class T>
 void Inorder(const BTNode<T> *t)
 {
 	if(t==0)
 		return;
 	if(t->left)
-		Inorder(t->left); //ÖĞĞò±éÀú×ó×ÓÊ÷
-	cout<<t->data<<'\t'; //¶Ïµã(!)
+		Inorder(t->left); //ä¸­åºéå†å·¦å­æ ‘
+	cout<<t->data<<'\t'; //æ–­ç‚¹(!)
 	if(t->right)
-		Inorder(t->right); //ÖĞĞò±éÀúÓÒ×ÓÊ÷
-} //¶Ïµã(2)
+		Inorder(t->right); //ä¸­åºéå†å³å­æ ‘
+} //æ–­ç‚¹(2)
 */
 template<class T>
-void SimInorder(const BTNode<T> *t) //ÖĞĞò±éÀúµü´úËã·¨
+void SimInorder(const BTNode<T> *t) //ä¸­åºéå†è¿­ä»£ç®—æ³•
 {
 	if (t == 0)
 		return;
-	Stack<const BTNode *> S; //ÓÃ»§Õ»
+	Stack<const BTNode *> S; //ç”¨æˆ·æ ˆ
 	while(t||!S.Empty())
 		if (t)
 		{
-			S.Push(t); //½áµãÖ¸ÕëÈëÕ»±£´æ
-			t = t->left; //ÌáÈ¡×óº¢×ÓÖ¸Õë
+			S.Push(t); //ç»“ç‚¹æŒ‡é’ˆå…¥æ ˆä¿å­˜
+			t = t->left; //æå–å·¦å­©å­æŒ‡é’ˆ
 		}
 		else
 		{
-			t = S.Pop(); //½áµãÖ¸Õë³öÕ»
-			cout << t->data << '\t'; //·ÃÎÊ½áµã
-			t = t->right; //ÌáÈ¡ÓÒº¢×ÓÖ¸Õë
+			t = S.Pop(); //ç»“ç‚¹æŒ‡é’ˆå‡ºæ ˆ
+			cout << t->data << '\t'; //è®¿é—®ç»“ç‚¹
+			t = t->right; //æå–å³å­©å­æŒ‡é’ˆ
 		}
 }
-void Hanoi(int n,char S,char M,char E) //ººÅµËşÎÊÌâÇó½â
-{ //ÓÃËÄÔª×é(n,ÆğÊ¼Î»ÖÃ,ÖĞ¼äÎ»ÖÃ,½áÊøÎ»ÖÃ)±íÊ¾n½×ººÅµËşÎÊÌâ¡£Èç¹û½×Êı´óÓÚ1£¬Ëü¾ÍÓĞ×óÓÒº¢×Ó£»ËüºÍ×óº¢×ÓµÄ¹ØÏµÊÇ½×Êı²î1£¬ÖĞ¼äÎ»ÖÃºÍ½áÊøÎ»ÖÃ½»»»£»
-  //ËüºÍÓÒº¢×ÓµÄ¹ØÏµÊÇ½×Êı²î1£¬ÆğÊ¼Î»ÖÃºÍÖĞ¼äÎ»ÖÃ½»»»¡£Õâ¿ÃÊ÷³ÆÎªººÅµËş×´Ì¬Ê÷¡£n½×ººÅµËşÎÊÌâµİ¹éÇó½âÄ£ĞÍÊÇ¶ş²æÊ÷ÖĞĞò±éÀúµİ¹éËã·¨¡£
+void Hanoi(int n,char S,char M,char E) //æ±‰è¯ºå¡”é—®é¢˜æ±‚è§£
+{ //ç”¨å››å…ƒç»„(n,èµ·å§‹ä½ç½®,ä¸­é—´ä½ç½®,ç»“æŸä½ç½®)è¡¨ç¤ºné˜¶æ±‰è¯ºå¡”é—®é¢˜ã€‚å¦‚æœé˜¶æ•°å¤§äº1ï¼Œå®ƒå°±æœ‰å·¦å³å­©å­ï¼›å®ƒå’Œå·¦å­©å­çš„å…³ç³»æ˜¯é˜¶æ•°å·®1ï¼Œä¸­é—´ä½ç½®å’Œç»“æŸä½ç½®äº¤æ¢ï¼›
+  //å®ƒå’Œå³å­©å­çš„å…³ç³»æ˜¯é˜¶æ•°å·®1ï¼Œèµ·å§‹ä½ç½®å’Œä¸­é—´ä½ç½®äº¤æ¢ã€‚è¿™æ£µæ ‘ç§°ä¸ºæ±‰è¯ºå¡”çŠ¶æ€æ ‘ã€‚né˜¶æ±‰è¯ºå¡”é—®é¢˜é€’å½’æ±‚è§£æ¨¡å‹æ˜¯äºŒå‰æ ‘ä¸­åºéå†é€’å½’ç®—æ³•ã€‚
 	if (n <= 0)
 		return;
 	if (n > 1)
-		Hanoi(n - 1,S,E,M); //ÖĞ¼äÎ»ÖÃºÍ½áÊøÎ»ÖÃ½»»»
-	cout << n << ':' << S << "->" << E << endl; //°ÑµÚnºÅÅÌ×Ó´ÓÆğÊ¼Î»ÖÃÖ±½ÓÒÆµ½½áÊøÎ»ÖÃ
+		Hanoi(n - 1,S,E,M); //ä¸­é—´ä½ç½®å’Œç»“æŸä½ç½®äº¤æ¢
+	cout << n << ':' << S << "->" << E << endl; //æŠŠç¬¬nå·ç›˜å­ä»èµ·å§‹ä½ç½®ç›´æ¥ç§»åˆ°ç»“æŸä½ç½®
 	if (n > 1)
-		Hanoi(n - 1,M,S,E); //ÆğÊ¼Î»ÖÃºÍÖĞ¼äÎ»ÖÃ½»»»
+		Hanoi(n - 1,M,S,E); //èµ·å§‹ä½ç½®å’Œä¸­é—´ä½ç½®äº¤æ¢
 }
 template<class T>
-void Postorder(const BTNode<T> *t) //ºóĞò±éÀúµİ¹éËã·¨
+void Postorder(const BTNode<T> *t) //ååºéå†é€’å½’ç®—æ³•
 {
 	if (t == 0)
 		return;
-	Postorder(t->left); //ºóĞò±éÀú×ó×ÓÊ÷
-	Postorder(t->right); //¶Ïµã(1)£¬ºóĞò±éÀúÓÒ×ÓÊ÷
-	cout << t->data << '\t'; //¶Ïµã(2)£¬Êä³ö½áµãÊı¾İÔªËØ
+	Postorder(t->left); //ååºéå†å·¦å­æ ‘
+	Postorder(t->right); //æ–­ç‚¹(1)ï¼Œååºéå†å³å­æ ‘
+	cout << t->data << '\t'; //æ–­ç‚¹(2)ï¼Œè¾“å‡ºç»“ç‚¹æ•°æ®å…ƒç´ 
 }
-/*ºóĞò±éÀúµİ¹éº¯Êı»¹ÓĞÁíÒ»¸ö°æ±¾£¬º¬ÓĞif×Ó¾ä
+/*ååºéå†é€’å½’å‡½æ•°è¿˜æœ‰å¦ä¸€ä¸ªç‰ˆæœ¬ï¼Œå«æœ‰ifå­å¥
 template<class T>
 void Postorder(const BTNode<T> *t)
 {
 	if (t == 0)
 		return;
 	if (t->left)
-		Postorder(t->left); //ºóĞò±éÀú×ó×ÓÊ÷
-	if (t->right) //¶Ïµã(1)
-		Postorder(t->right); //ºóĞò±éÀúÓÒ×ÓÊ÷
-	cout << t->data << '\t'; //¶Ïµã(2)
+		Postorder(t->left); //ååºéå†å·¦å­æ ‘
+	if (t->right) //æ–­ç‚¹(1)
+		Postorder(t->right); //ååºéå†å³å­æ ‘
+	cout << t->data << '\t'; //æ–­ç‚¹(2)
 }
 */
 template<class T>
-void SimPostorder(const BTNode<T> *t) //ºóĞò±éÀúµü´úËã·¨
+void SimPostorder(const BTNode<T> *t) //ååºéå†è¿­ä»£ç®—æ³•
 {
 	if (t == 0)
 		return;
 	int tag;
-	Stack<int>tagS; //¼ÇÂ¼½áµãÖ¸ÕëÈëÕ»´ÎÊı£¬µ±½áµãµÚ¶ş´Î³öÕ»Ê±£¬·ÃÎÊ¸Ã½áµã
+	Stack<int>tagS; //è®°å½•ç»“ç‚¹æŒ‡é’ˆå…¥æ ˆæ¬¡æ•°ï¼Œå½“ç»“ç‚¹ç¬¬äºŒæ¬¡å‡ºæ ˆæ—¶ï¼Œè®¿é—®è¯¥ç»“ç‚¹
 	Stack<const BTNode<T>*> S;
 	const BTNode<T> *p;
-	while(t||!S.Empty())
+	while(t || !S.Empty())
 		if (t)
 		{
 			S.Push(t);
@@ -300,18 +300,18 @@ void SimPostorder(const BTNode<T> *t) //ºóĞò±éÀúµü´úËã·¨
 		{
 			p = S.Pop();
 			tag = tagS.Pop();
-			if (tag == 1) //µÚÒ»´Î³öÕ»
+			if (tag == 1) //ç¬¬ä¸€æ¬¡å‡ºæ ˆ
 			{
 				S.Push(p);
 				tagS.Push(2);
 				t = p->right;
 			}
-			else //µÚ¶ş´Î³öÕ»
+			else //ç¬¬äºŒæ¬¡å‡ºæ ˆ
 				cout << p->data << '\t';
 		}
 }
 template<class T>
-BTNode<T> *CopyTree(const BTNode<T> *t) //¸´ÖÆ¶ş²æÁ´±íµÄµİ¹éËã·¨
+BTNode<T> *CopyTree(const BTNode<T> *t) //å¤åˆ¶äºŒå‰é“¾è¡¨çš„é€’å½’ç®—æ³•
 {
 	if (t == 0)
 		return 0;
@@ -320,7 +320,7 @@ BTNode<T> *CopyTree(const BTNode<T> *t) //¸´ÖÆ¶ş²æÁ´±íµÄµİ¹éËã·¨
 	return new BTNode<T>(t->data,l,r);
 }
 template<class T>
-int Depth(const BTNode<T> *t) //¼ÆËã¶ş²æÊ÷¸ß¶È
+int Depth(const BTNode<T> *t) //è®¡ç®—äºŒå‰æ ‘é«˜åº¦
 {
 	if (t == 0)
 		return -1;
@@ -329,7 +329,7 @@ int Depth(const BTNode<T> *t) //¼ÆËã¶ş²æÊ÷¸ß¶È
 	return(1 + (l > r ? l: r));
 }
 template<class T>
-void DeleteBTree(BTNode<T> *t) //É¾³ı¶ş²æÁ´±íµÄµİ¹éËã·¨
+void DeleteBTree(BTNode<T> *t) //åˆ é™¤äºŒå‰é“¾è¡¨çš„é€’å½’ç®—æ³•
 {
 	if (t == 0)
 		return;
@@ -338,7 +338,7 @@ void DeleteBTree(BTNode<T> *t) //É¾³ı¶ş²æÁ´±íµÄµİ¹éËã·¨
 	delete t;
 }
 template<class T>
-BTNode<T> *MakeBTree(const T *p,int size,int i) //Éú³É¶ş²æÁ´±íµÄµİ¹éËã·¨
+BTNode<T> *MakeBTree(const T *p,int size,int i) //ç”ŸæˆäºŒå‰é“¾è¡¨çš„é€’å½’ç®—æ³•
 {
 	if (size == 0 || i >= size || p[i] == T())
 		return 0;
